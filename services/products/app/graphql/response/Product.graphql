@@ -1,0 +1,15 @@
+type createPostResponse {
+  success: Boolean
+  data: Post
+}
+
+input fetchProductByIdResponse {
+  total: Int
+  data: Post
+}
+
+input fetchProductsResponse {
+  success: Boolean
+  data: [Post!]
+}
+

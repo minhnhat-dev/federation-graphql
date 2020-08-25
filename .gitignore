@@ -51,3 +51,6 @@ typings/
 
 # environment variables
 .env
+
+.history
+.vscode/

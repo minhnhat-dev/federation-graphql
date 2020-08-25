@@ -1,11 +1,17 @@
 {
   "name": "products",
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon app/index.js"
   },
   "dependencies": {
     "@apollo/federation": "latest",
+    "@graphql-tools/load-files": "^6.0.18",
+    "@graphql-tools/merge": "^6.0.18",
     "apollo-server": "latest",
-    "graphql": "latest"
+    "dataloader": "latest",
+    "dotenv": "latest",
+    "graphql": "latest",
+    "graphql-tools": "latest",
+    "mongoose": "latest"
   }
 }

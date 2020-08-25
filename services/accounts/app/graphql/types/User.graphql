@@ -1,0 +1,4 @@
+type User @key(fields: "_id") {
+  _id: ID!
+  email: String
+}

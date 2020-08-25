@@ -6,6 +6,9 @@
   "dependencies": {
     "@apollo/federation": "latest",
     "apollo-server": "latest",
-    "graphql": "latest"
+    "graphql": "latest",
+    "mongoose": "latest",
+    "dataloader": "latest",
+    "dotenv": "latest"
   }
 }

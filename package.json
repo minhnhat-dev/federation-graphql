@@ -3,21 +3,38 @@
   "main": "gateway.js",
   "scripts": {
     "start-gateway": "nodemon gateway.js",
-    "start-service-accounts": "nodemon services/accounts/index.js",
+    "start-service-accounts": "nodemon services/accounts/app/index.js",
     "start-service-reviews": "nodemon services/reviews/index.js",
     "start-service-products": "nodemon services/products/index.js",
     "start-service-inventory": "nodemon services/inventory/index.js",
     "start-services": "concurrently \"npm:start-service-*\"",
-    "postinstall": "lerna bootstrap"
+    "start-services-test": "NODE_ENV=test concurrently \"npm:start-service-*\"",
+    "postinstall": "lerna bootstrap",
+    "test": "jest --detectOpenHandles ./tests/**/*.test.js",
+    "migrate:up": "migrate-mongo up",
+    "migrate:down": "migrate-mongo down"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.2",
+    "concurrently": "latest",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "jest": "^26.4.2",
+    "jest-chain": "^1.1.5",
+    "jest-extended": "^0.11.5",
     "lerna": "latest",
     "nodemon": "latest",
-    "concurrently": "latest"
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "@apollo/gateway": "latest",
     "apollo-server": "latest",
-    "graphql": "latest"
+    "axios": "latest",
+    "chai": "latest",
+    "dotenv": "^8.2.0",
+    "faker": "^4.1.0",
+    "graphql": "latest",
+    "mongoose": "latest"
   }
 }

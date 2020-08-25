@@ -1,0 +1,4 @@
+extend type Query {
+  product(input: fetchProductById): fetchProductByIdResponse
+  products(input: fetchProducts): fetchProductsResponse
+}

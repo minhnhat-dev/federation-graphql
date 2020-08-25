@@ -1,0 +1,16 @@
+input createProductInputData {
+  name: String!
+  upc: String!
+  price: Int!
+  weight: Int!
+}
+
+input fetchProductById {
+  id: ID!
+}
+
+input fetchProducts {
+  skip: Int
+  limit: Int
+  q: String
+}

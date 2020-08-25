@@ -1,0 +1,4 @@
+extend type Query {
+  me(id: ID!): User
+}
+
