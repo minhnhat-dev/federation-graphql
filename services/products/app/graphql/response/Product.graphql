@@ -1,15 +1,12 @@
 type createPostResponse {
-  success: Boolean
-  data: Post
+  data: Product
 }
 
-input fetchProductByIdResponse {
+type fetchProductByIdResponse {
+  data: Product
+}
+
+type fetchProductsResponse {
   total: Int
-  data: Post
+  data: [Product!]
 }
-
-input fetchProductsResponse {
-  success: Boolean
-  data: [Post!]
-}
-

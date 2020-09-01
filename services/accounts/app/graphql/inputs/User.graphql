@@ -1,0 +1,14 @@
+input createUserInputData {
+  email: String!
+  password: String!
+}
+
+input fetchMe {
+  id: ID!
+}
+
+input fetchUsers {
+  skip: Int = 0
+  limit: Int = 20
+  q: String
+}

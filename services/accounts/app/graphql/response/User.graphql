@@ -1,0 +1,12 @@
+type createUserResponse {
+  data: User
+}
+
+type fetchMeResponse {
+  data: User
+}
+
+type fetchUsersResponse {
+  total: Int
+  data: [User!]
+}

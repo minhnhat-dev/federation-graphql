@@ -1,5 +1,4 @@
-
 extend type Mutation {
-  createUser(email: String!, password: String!): User
+  createUser(input: createUserInputData): createUserResponse
 }
 

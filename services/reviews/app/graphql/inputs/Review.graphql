@@ -1,0 +1,15 @@
+input createReviewInputData {
+  authorID: ID!
+  upc: String!
+  body: String!
+}
+
+input fetchReviewById {
+  id: ID!
+}
+
+input fetchReviews {
+  skip: Int = 0
+  limit: Int = 20
+  q: String
+}

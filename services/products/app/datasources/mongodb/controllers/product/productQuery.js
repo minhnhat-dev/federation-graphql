@@ -1,20 +1,40 @@
-const { ProductsModel } = require('../../models');
+const { Products } = require('../../models');
 
-const count = async (query) => ProductsModel.countDocuments(query);
+async function getProduct({ input = {} }, { datasources }, info) {
+  const { id } = input;
+  const { mongodb } = datasources;
+  const fieldsSelect = mongodb.utils.getMongooseSelectionFromRequest2(info);
+  const select = Object.keys(fieldsSelect.data).join(' ');
+  const product = await Products.findOne({ _id: id }).select(select);
+  return {
+    data: product,
+  };
+}
 
-const findOne = async (query = {}, options = {}) => {
-  const { select } = options;
-  return ProductsModel.findOne(query).lean(select).exec();
-};
-
-const find = async (filter = {}, options = {}) => {
-  const { skip, limit, select } = options;
-  return ProductsModel.find(filter).skip(skip).limit(limit).lean()
-    .exec();
-};
+async function getProducts({ input = {} }, { datasources }, info) {
+  let query = {};
+  const { mongodb } = datasources;
+  const { skip, limit, q } = input;
+  if (q) {
+    const querySearch = mongodb.utils.buildTextSearch(['name', 'upc'], q);
+    query = { ...querySearch, ...query };
+  }
+  const fieldsSelect = mongodb.utils.getMongooseSelectionFromRequest2(info);
+  const select = Object.keys(fieldsSelect.data).join(' ');
+  const promises = [
+    Products.countDocuments(query),
+    Products.find(query).select(select).skip(skip).limit(limit)
+      .lean()
+      .exec(),
+  ];
+  const [total, products] = await Promise.all(promises);
+  return {
+    total,
+    data: products,
+  };
+}
 
 module.exports = {
-  count,
-  find,
-  findOne,
+  getProduct,
+  getProducts,
 };

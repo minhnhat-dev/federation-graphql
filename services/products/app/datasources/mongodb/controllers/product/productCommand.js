@@ -1,10 +1,17 @@
-const { ProductsModel } = require('../../models');
+const { UserInputError } = require('apollo-server-express');
+const { Products } = require('../../models');
 
-const create = async (product) => ProductsModel.create(product);
-
-const update = async (id, data) => ProductsModel.updateOne({ _id: id }, { $set: data });
-
+async function createProduct({ input }, context) {
+  const { upc } = input;
+  const count = await Products.countDocuments({ upc });
+  if (count) {
+    throw new UserInputError('Upc already exists');
+  }
+  const product = await Products.create(input);
+  return {
+    data: product,
+  };
+}
 module.exports = {
-  create,
-  update,
+  createProduct,
 };

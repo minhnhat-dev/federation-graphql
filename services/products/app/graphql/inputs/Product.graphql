@@ -10,7 +10,7 @@ input fetchProductById {
 }
 
 input fetchProducts {
-  skip: Int
-  limit: Int
+  skip: Int = 0
+  limit: Int = 20
   q: String
 }

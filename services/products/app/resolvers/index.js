@@ -1,7 +1,11 @@
-const path = require('path');
-const { mergeResolvers } = require('@graphql-tools/merge');
-const { loadFilesSync } = require('@graphql-tools/load-files');
+const Query = require('./query');
+const Mutation = require('./mutation');
+const Product = require('./product');
 
-const resolversArray = loadFilesSync(path.join(__dirname, './'), { extensions: ['js'] });
+const resolvers = {
+  Query,
+  Mutation,
+  Product,
+};
 
-module.exports = mergeResolvers(resolversArray);
+module.exports = resolvers;

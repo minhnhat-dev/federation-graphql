@@ -1,15 +1,18 @@
-const jwt = require('jsonwebtoken');
-const { UsersModel } = require('../../models');
-const config = require('../../config');
+const { UserInputError } = require('apollo-server-express');
+const { Users } = require('../../models');
 
-const sign = (payload) => jwt.sign(payload, config.JWT_SECRET, { expiresIn: 10800 });
-
-const create = async (user) => UsersModel.create(user);
-
-const update = (id, data) => UsersModel.updateOne({ _id: id }, { $set: data });
+async function createUser({ input = {} }, context) {
+  const { email, password } = input;
+  const count = await Users.countDocuments({ email });
+  if (count) {
+    throw new UserInputError('Email already exist');
+  }
+  const user = await Users.create({ email, password });
+  return {
+    data: user,
+  };
+}
 
 module.exports = {
-  create,
-  update,
-  sign,
+  createUser,
 };

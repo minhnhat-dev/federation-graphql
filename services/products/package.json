@@ -1,7 +1,7 @@
 {
   "name": "products",
   "scripts": {
-    "start": "nodemon app/index.js"
+    "start": "PORT=4003 IP=localhost nodemon app/index.js"
   },
   "dependencies": {
     "@apollo/federation": "latest",
@@ -12,6 +12,19 @@
     "dotenv": "latest",
     "graphql": "latest",
     "graphql-tools": "latest",
-    "mongoose": "latest"
+    "mongoose": "latest",
+    "body-parser": "latest",
+    "compression": "latest",
+    "cookie-parser": "latest",
+    "cors": "latest",
+    "express": "latest",
+    "graphql-fields": "latest",
+    "graphql-import": "latest",
+    "graphql-parse-fields": "^1.2.0",
+    "helmet": "latest",
+    "morgan": "latest",
+    "bcryptjs": "latest",
+    "jsonwebtoken": "latest",
+    "apollo-server-express": "latest"
   }
 }

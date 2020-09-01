@@ -1,7 +1,7 @@
 {
   "name": "accounts",
   "scripts": {
-    "start": "nodemon app/index.js"
+    "start": "PORT=4001 IP=localhost nodemon app/index.js"
   },
   "dependencies": {
     "@apollo/federation": "latest",
@@ -10,13 +10,24 @@
     "apollo-server": "latest",
     "apollo-server-express": "latest",
     "bcryptjs": "latest",
+    "body-parser": "latest",
+    "compression": "latest",
+    "cookie-parser": "latest",
+    "cors": "latest",
     "dataloader": "latest",
     "dotenv": "latest",
+    "express": "latest",
     "graphql": "latest",
     "graphql-fields": "latest",
     "graphql-import": "latest",
+    "graphql-parse-fields": "^1.2.0",
     "graphql-tools": "latest",
+    "helmet": "latest",
+    "ioredis": "^4.17.3",
     "jsonwebtoken": "latest",
-    "mongoose": "latest"
+    "mongoose": "latest",
+    "morgan": "latest",
+    "redis": "latest",
+    "winston": "^3.3.3"
   }
 }

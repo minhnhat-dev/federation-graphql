@@ -1,0 +1,13 @@
+type createReviewResponse {
+  success: Boolean
+  data: Review
+}
+
+type fetchReviewByIdResponse {
+  data: Review
+}
+
+type fetchReviewsResponse {
+  total: Int
+  data: [Review!]
+}

@@ -1,41 +1,49 @@
-const jwt = require('jsonwebtoken');
-const { AuthenticationError } = require('apollo-server-express');
-const { UsersModel } = require('../../models');
-const config = require('../../config');
+const { Users } = require('../../models');
+const {} = require('');
 
-const count = async (query) => UsersModel.countDocuments(query);
-
-const findOne = async (query = {}, options = {}) => {
-  const { select } = options;
-  return UsersModel.findOne(query).lean().exec();
-};
-
-const find = async (filter = {}, options = {}) => {
-  const { skip, limit, select } = options;
-  return UsersModel.find(filter).skip(skip).limit(limit).lean()
-    .exec();
-};
-
-const getUserByToken = async (token) => {
-  if (!token) {
-    return {
-      user: null,
-    };
+async function getUsers({ input = {} }, { datasources }, info) {
+  let query = {};
+  const { mongodb, redis } = datasources;
+  const { skip, limit, q } = input;
+  if (q) {
+    const querySearch = mongodb.utils.buildTextSearch(['email'], q);
+    query = { ...querySearch, ...query };
   }
-  try {
-    const decodedToken = jwt.verify(token, config.JWT_SECRET);
-    const { id } = decodedToken;
-    const user = await UsersModel.findOne({ _id: id });
-    return { user };
-  } catch (e) {
-    console.log(e);
-    throw new AuthenticationError('Unauthorized');
+  const fieldsSelect = mongodb.utils.getMongooseSelectionFromRequest2(info);
+  const select = Object.keys(fieldsSelect.data).join(' ');
+  const usersCached = await redis.get(q);
+  if (usersCached) {
+    return JSON.parse(usersCached);
   }
-};
+  const promises = [
+    Users.countDocuments(query),
+    Users.find(query).select(select).skip(skip).limit(limit)
+      .lean()
+      .exec(),
+  ];
+  const [total, users] = await Promise.all(promises);
+  const response = {
+    total,
+    data: users,
+  };
+  const usersExpiry = process.env.REDIS_USERS_EXPIRY || 10;
+  redis.set(q, JSON.stringify(response), 'EX', usersExpiry);
+  return response;
+}
+
+async function getMe({ input = {} }, { datasources }, info) {
+  const { id } = input;
+  const { mongodb } = datasources;
+  const fieldsSelect = mongodb.utils.getMongooseSelectionFromRequest2(info);
+  const select = Object.keys(fieldsSelect.data).join(' ');
+  const user = await Users.findOne({ _id: id }).select(select).lean();
+  return {
+    data: user,
+  };
+}
+
 
 module.exports = {
-  count,
-  find,
-  findOne,
-  getUserByToken,
+  getUsers,
+  getMe,
 };
